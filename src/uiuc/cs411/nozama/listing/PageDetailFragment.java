@@ -7,11 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
+import uiuc.cs411.nozama.network.DatabaseTask;
+import uiuc.cs411.nozama.ui.ItemListActivity;
+import uiuc.cs411.nozama.ui.SearchPostListAdapter;
 
 /**
  * A fragment representing a single Page detail screen. This fragment is either
@@ -30,6 +34,8 @@ public class PageDetailFragment extends Fragment {
 	 */
 	private ListingContent.Post mItem;
 
+	public static ReplyListAdapter replyAdapter;
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -57,6 +63,11 @@ public class PageDetailFragment extends Fragment {
 			// to load content from a content provider.
 			mItem = ListingContent.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
+			
+			ReplyContent.clear();
+			
+			new DatabaseTask().execute(""
+					+ DatabaseTask.REPLY_QUERY, mItem.id);
 		}
 	}
 
@@ -83,8 +94,14 @@ public class PageDetailFragment extends Fragment {
 			keywords += mItem.keywords[mItem.keywords.length-1];
 			((TextView) rootView.findViewById(R.id.page_detail_keywords))
 			.setText(keywords);
+		
+			replyAdapter = new ReplyListAdapter(getActivity(), R.layout.search_post_list_item, ReplyContent.ITEMS);
 			
+			((ListView) rootView.findViewById(R.id.page_reply_list))
+				.setAdapter(replyAdapter);
 		}
+		
+		
 
 		return rootView;
 	}

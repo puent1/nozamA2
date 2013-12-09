@@ -18,6 +18,8 @@ import uiuc.cs411.nozama.RegisterActivity;
 import uiuc.cs411.nozama.content.Content;
 import uiuc.cs411.nozama.content.Content.Item;
 import uiuc.cs411.nozama.listing.ListingContent;
+import uiuc.cs411.nozama.listing.PageDetailFragment;
+import uiuc.cs411.nozama.listing.ReplyContent;
 import uiuc.cs411.nozama.ui.ItemListActivity;
 import uiuc.cs411.nozama.ui.MyPostFragment;
 import uiuc.cs411.nozama.ui.SearchPostFragment;
@@ -32,8 +34,9 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 	public static final int LOGIN = 2;
 	public static final int REGISTER = 3;
 	public static final int MY_POST_QUERY = 4;
+	public static final int REPLY_QUERY = 5;
 	public static int lock;
-	
+
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
 
 	@Override
@@ -46,7 +49,8 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 		case CREATE_POST:
 			nameValuePairs = new ArrayList<NameValuePair>(4);
 			nameValuePairs.add(new BasicNameValuePair("title", params[1]));
-			nameValuePairs.add(new BasicNameValuePair("user", ItemListActivity.username));
+			nameValuePairs.add(new BasicNameValuePair("user",
+					ItemListActivity.username));
 			nameValuePairs.add(new BasicNameValuePair("tag", "new post"));
 			nameValuePairs.add(new BasicNameValuePair("body", params[2]));
 			response = sendHttpPost(CREATE_POST, nameValuePairs);
@@ -79,13 +83,19 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("tag", "userPosts"));
 			response = sendHttpPost(MY_POST_QUERY, nameValuePairs);
 			break;
+		case REPLY_QUERY:
+			nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
+			nameValuePairs.add(new BasicNameValuePair("tag", "getResponses"));
+			response = sendHttpPost(REPLY_QUERY, nameValuePairs);
+			break;
 		}
 		return response;
 	}
 
 	private JSONObject sendHttpPost(int postType,
 			List<NameValuePair> nameValuePairs) {
-		
+
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(DATABASE_SITE);
 		JSONObject jo = null;
@@ -95,10 +105,10 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = httpclient.execute(httppost);
 			Log.d("HTTP", "Finished sending");
-	        String result = EntityUtils.toString(response.getEntity());
-	        Log.d("MYJSON", result);
-	        jo = new JSONObject(result); 
-	        
+			String result = EntityUtils.toString(response.getEntity());
+			Log.d("MYJSON", result);
+			jo = new JSONObject(result);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,36 +117,45 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 
 	protected void onPostExecute(JSONObject result) {
 		try {
-			if(result.getString("tag").equals("search posts")) {
+			if (result.getString("tag").equals("search posts")) {
 				JSONArray posts = result.getJSONArray("posts");
 				ListingContent.init(posts);
-			
+
 				SearchPostFragment.adapter.notifyDataSetChanged();
 
 			}
-			if(result.getString("tag").equals("userPosts")) {
+			if (result.getString("tag").equals("userPosts")) {
 				JSONArray posts = result.getJSONArray("posts");
 				ListingContent.init(posts);
-			
+
 				MyPostFragment.adapter.notifyDataSetChanged();
 			}
-			if(result.getString("tag").equals("login")){
+			if (result.getString("tag").equals("login")) {
 				Log.d("result", result.toString());
 				LoginActivity.ret_val = result;
 				Log.d("ret_val", LoginActivity.ret_val.toString());
 				LoginActivity.checkResult();
 			}
-			if(result.getString("tag").equals("register")){
+			if (result.getString("tag").equals("register")) {
 				Log.d("result", result.toString());
 				RegisterActivity.ret_val = result;
 				Log.d("ret_val", RegisterActivity.ret_val.toString());
 				RegisterActivity.checkResult();
 			}
-		} catch(Exception e) {
+			if (result.getString("tag").equals("getResponses")) {
+				if (result.getInt("success") == 1) {
+					JSONArray responses = result.getJSONArray("responses");
+					ReplyContent.init(responses);
+					Log.d("getResponses", responses.toString());
+				} else {
+					ReplyContent.clear();
+				}
+				PageDetailFragment.replyAdapter.notifyDataSetChanged();
+
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 
 	}
 
