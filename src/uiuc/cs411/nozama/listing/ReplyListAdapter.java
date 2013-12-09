@@ -1,12 +1,13 @@
-package uiuc.cs411.nozama.ui;
+package uiuc.cs411.nozama.listing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import uiuc.cs411.nozama.R;
-import uiuc.cs411.nozama.listing.ListingContent.Post;
+import uiuc.cs411.nozama.listing.ReplyContent.Reply;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SearchPostListAdapter extends ArrayAdapter<Post> {
-	private List<Post> objects;
+public class ReplyListAdapter extends ArrayAdapter<Reply> {
+	private List<Reply> objects;
 	Context mContext;
 	int mResource;
 	
 	
-	public SearchPostListAdapter(Context context, int resource, List<Post> objects) {
+	public ReplyListAdapter(Context context, int resource, List<Reply> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;	
@@ -39,8 +40,9 @@ public class SearchPostListAdapter extends ArrayAdapter<Post> {
 			v = lI.inflate(mResource, parent, false);
 		}
 		
-		((TextView) v.findViewById(R.id.list_item_title)).setText("test");
+		((TextView) v.findViewById(R.id.list_item_title)).setText(objects.get(position).title);
 		((TextView) v.findViewById(R.id.list_item_body)).setText(objects.get(position).body);
+		v.setBackgroundColor(Color.parseColor("#7ADCF0"));
 		return v;
 	
 	}

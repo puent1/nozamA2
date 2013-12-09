@@ -86,4 +86,10 @@ public class ListingContent {
 
 		}
 	}
+
+	public static void clear() {
+		ITEMS.clear();
+		ITEM_MAP.clear();
+		
+	}
 }
