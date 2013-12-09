@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NozamA</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="createpost">Create a Post</string>
+    <string name="uploadpost">Upload post</string>
+    <string name="search">Search</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_page_list">Pages</string>
+    <string name="title_page_detail">Page Detail</string>
+
+</resources>
