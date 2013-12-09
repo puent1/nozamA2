@@ -19,9 +19,7 @@
 	
         <ImageView
             android:id="@+id/contact_entry_image"
-        	android:src="@drawable-hdpi/ic_launcher"
             android:layout_height="wrap_content"
-            android:layout_weight="0dip"
             android:adjustViewBounds="true"
             android:maxWidth="40dip"
             android:scaleType="fitCenter" />
