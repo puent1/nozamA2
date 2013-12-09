@@ -5,10 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
@@ -43,6 +44,12 @@ public class PageDetailFragment extends Fragment {
 		inflater.inflate(R.menu.page_list_actions, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		((PageListActivity)getActivity()).switchFragment(mItem);
+		return true;
 	}
 	
 	

@@ -2,7 +2,6 @@ package uiuc.cs411.nozama.listing;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
@@ -100,5 +99,27 @@ public class PageListActivity extends FragmentActivity implements
 			detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+
+	public void switchFragment(ListingContent.Post item) {
+		if (mTwoPane) {
+			// In two-pane mode, show the detail view in this activity by
+			// adding or replacing the detail fragment using a
+			// fragment transaction.
+			Bundle arguments = new Bundle();
+			arguments.putString(CreateReplyFragment.ARG_ITEM_ID, item.id);
+			CreateReplyFragment fragment = new CreateReplyFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.page_detail_container, fragment).commit();
+
+		} else {
+			// In single-pane mode, simply start the detail activity
+			// for the selected item ID.
+			Intent detailIntent = new Intent(this, PageDetailActivity.class);
+			detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, item.id);
+			startActivity(detailIntent);
+		}
+		
 	}
 }

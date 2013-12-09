@@ -32,6 +32,7 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 	public static final int LOGIN = 2;
 	public static final int REGISTER = 3;
 	public static final int MY_POST_QUERY = 4;
+	public static final int CREATE_RESPONSE = 6;
 	public static int lock;
 	
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
@@ -78,6 +79,15 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("userName", params[1]));
 			nameValuePairs.add(new BasicNameValuePair("tag", "userPosts"));
 			response = sendHttpPost(MY_POST_QUERY, nameValuePairs);
+			break;
+		case CREATE_RESPONSE:
+			nameValuePairs = new ArrayList<NameValuePair>(5);
+			nameValuePairs.add(new BasicNameValuePair("userName", params[1]));
+			nameValuePairs.add(new BasicNameValuePair("tag", "newRes"));
+			nameValuePairs.add(new BasicNameValuePair("title", params[2]));
+			nameValuePairs.add(new BasicNameValuePair("body", params[3]));
+			nameValuePairs.add(new BasicNameValuePair("id", params[5]));
+			response = sendHttpPost(REGISTER, nameValuePairs);
 			break;
 		}
 		return response;
