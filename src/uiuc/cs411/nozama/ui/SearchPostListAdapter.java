@@ -1,6 +1,7 @@
 package uiuc.cs411.nozama.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.listing.ListingContent.Post;
@@ -14,12 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SearchPostListAdapter extends ArrayAdapter<Post> {
-	private Post[] objects;
+	private List<Post> objects;
 	Context mContext;
 	int mResource;
 	
 	
-	public SearchPostListAdapter(Context context, int resource, Post[] objects) {
+	public SearchPostListAdapter(Context context, int resource, List<Post> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;	
@@ -38,8 +39,8 @@ public class SearchPostListAdapter extends ArrayAdapter<Post> {
 			v = lI.inflate(mResource, parent, false);
 		}
 		
-		((TextView) v.findViewById(R.id.page_detail_title)).setText(objects[position].title);
-		((TextView) v.findViewById(R.id.page_detail_body)).setText(objects[position].body);
+		((TextView) v.findViewById(R.id.page_detail_title)).setText(objects.get(position).title);
+		((TextView) v.findViewById(R.id.page_detail_body)).setText(objects.get(position).body);
 				
 		return v;
 	

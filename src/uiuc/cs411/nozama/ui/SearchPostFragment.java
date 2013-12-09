@@ -83,9 +83,9 @@ public class SearchPostFragment extends Fragment {
 				.findViewById(R.id.queryResults);
 
 		// TODO: replace with a real list adapter.
-		adapter = new ArrayAdapter<ListingContent.Post>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, ListingContent.ITEMS);
+		adapter = new SearchPostListAdapter(getActivity(),
+				
+				R.layout.search_post_list_item, ListingContent.ITEMS);
 
 		resultList.setAdapter(adapter);
 
