@@ -41,7 +41,6 @@ public class SearchPostListAdapter extends ArrayAdapter<Post> {
 		
 		((TextView) v.findViewById(R.id.page_detail_title)).setText(objects.get(position).title);
 		((TextView) v.findViewById(R.id.page_detail_body)).setText(objects.get(position).body);
-				
 		return v;
 	
 	}
