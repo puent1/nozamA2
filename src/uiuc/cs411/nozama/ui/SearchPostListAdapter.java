@@ -39,8 +39,8 @@ public class SearchPostListAdapter extends ArrayAdapter<Post> {
 			v = lI.inflate(mResource, parent, false);
 		}
 		
-		((TextView) v.findViewById(R.id.page_detail_title)).setText(objects.get(position).title);
-		((TextView) v.findViewById(R.id.page_detail_body)).setText(objects.get(position).body);
+		((TextView) v.findViewById(R.id.list_item_title)).setText("test");
+		((TextView) v.findViewById(R.id.list_item_body)).setText(objects.get(position).body);
 		return v;
 	
 	}
