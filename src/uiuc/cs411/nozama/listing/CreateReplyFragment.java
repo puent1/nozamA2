@@ -81,15 +81,17 @@ public class CreateReplyFragment extends Fragment {
 		}
 		else {
 			Context context = getActivity().getApplicationContext();
-//			CharSequence text = "title: " + title + ", description: " + description + ", path:" + pathToImage;
 			CharSequence text = "Replying";
 			int duration = Toast.LENGTH_SHORT;
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
+
+				String[] taskParams = { "" + DatabaseTask.CREATE_RESPONSE, ItemListActivity.username, title, description, pathToImage, str};
+				new DatabaseTask().execute(taskParams);
+
+
 			
-			String[] taskParams = { "" + DatabaseTask.CREATE_RESPONSE, ItemListActivity.username, title, description, pathToImage, str};
-			new DatabaseTask().execute(taskParams);
 		}
 
 		
@@ -129,6 +131,14 @@ public class CreateReplyFragment extends Fragment {
 		super.setHasOptionsMenu(true);
 		View rootView = inflater.inflate(R.layout.create_reply,
 					container, false);
+
+		String title = getArguments().getString("title");
+		String body = getArguments().getString("body");
+		
+		if(title != null)
+			((EditText) rootView.findViewById(R.id.titleInput)).setText(title);
+		if(body != null)
+			((EditText) rootView.findViewById(R.id.descriptionInput)).setText(body);
 
 		ImageButton galleryButton = (ImageButton) rootView.findViewById(R.id.upload_gallery);
 		galleryButton.setOnClickListener(new OnClickListener() {

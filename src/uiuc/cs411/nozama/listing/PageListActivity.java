@@ -97,6 +97,7 @@ public class PageListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, PageDetailActivity.class);
 			detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra("fragment", PageDetailActivity.DEFAULT);
 			startActivity(detailIntent);
 		}
 	}
@@ -118,8 +119,34 @@ public class PageListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, PageDetailActivity.class);
 			detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, item.id);
+			detailIntent.putExtra("fragment", PageDetailActivity.NEW_REPLY);
 			startActivity(detailIntent);
 		}
 		
+	}
+	
+	public void switchFragment(ReplyContent.Reply item) {
+		Bundle arguments = new Bundle();
+		arguments.putString(CreateReplyFragment.ARG_ITEM_ID, item.id);
+		arguments.putString("title", item.title);
+		arguments.putString("body", item.body);
+		arguments.putInt("fragment", PageDetailActivity.EDIT_REPLY);
+		
+		if (mTwoPane) {
+			// In two-pane mode, show the detail view in this activity by
+			// adding or replacing the detail fragment using a
+			// fragment transaction.
+			CreateReplyFragment fragment = new CreateReplyFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.page_detail_container, fragment).commit();
+
+		} else {
+			// In single-pane mode, simply start the detail activity
+			// for the selected item ID.
+			Intent detailIntent = new Intent(this, PageDetailActivity.class);
+			detailIntent.putExtras(arguments);
+			startActivity(detailIntent);
+		}
 	}
 }

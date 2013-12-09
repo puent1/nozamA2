@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cccccc"
+        android:background="#33B5E5"
         android:orientation="vertical"
         android:padding="16dp" >
 
@@ -45,11 +45,18 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/page_reply_list"
-        android:paddingLeft="64dp"
+   <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </ListView>
+
+        <ListView
+            android:id="@+id/page_reply_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="64dp" >
+        </ListView>
+
+        
+    </FrameLayout>
     
 </LinearLayout>

@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,8 +37,10 @@ public class PageDetailFragment extends Fragment {
 	 */
 	private ListingContent.Post mItem;
 
+	public static ListView mListView;
+
 	public static ReplyListAdapter replyAdapter;
-	
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -49,17 +53,15 @@ public class PageDetailFragment extends Fragment {
 		// TODO Auto-generated method stub
 		inflater.inflate(R.menu.page_list_actions, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-		
+
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		((PageListActivity)getActivity()).switchFragment(mItem);
+		((PageListActivity) getActivity()).switchFragment(mItem);
 		return true;
 	}
-	
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,11 +72,8 @@ public class PageDetailFragment extends Fragment {
 			// to load content from a content provider.
 			mItem = ListingContent.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
-			
-			ReplyContent.clear();
-			
-			new DatabaseTask().execute(""
-					+ DatabaseTask.REPLY_QUERY, mItem.id);
+
+			new DatabaseTask().execute("" + DatabaseTask.REPLY_QUERY, mItem.id);
 		}
 	}
 
@@ -84,31 +83,33 @@ public class PageDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_page_detail,
 				container, false);
 
+		mListView = (ListView) rootView.findViewById(R.id.page_reply_list);
+		mListView.setVisibility(View.INVISIBLE);
+
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.page_detail_title))
 					.setText(mItem.title);
-			
+
 			((TextView) rootView.findViewById(R.id.page_detail_user))
-			.setText("Post created by " + mItem.user);
-			
+					.setText("Post created by " + mItem.user);
+
 			((TextView) rootView.findViewById(R.id.page_detail_body))
-			.setText(mItem.body);
-			
+					.setText(mItem.body);
+
 			String keywords = "keywords: ";
-			for(int i = 0; i < mItem.keywords.length -1; i++) {
+			for (int i = 0; i < mItem.keywords.length - 1; i++) {
 				keywords += mItem.keywords[i] + ", ";
 			}
-			keywords += mItem.keywords[mItem.keywords.length-1];
+			keywords += mItem.keywords[mItem.keywords.length - 1];
 			((TextView) rootView.findViewById(R.id.page_detail_keywords))
-			.setText(keywords);
-		
-			replyAdapter = new ReplyListAdapter(getActivity(), R.layout.search_post_list_item, ReplyContent.ITEMS);
-			
-			((ListView) rootView.findViewById(R.id.page_reply_list))
-				.setAdapter(replyAdapter);
+					.setText(keywords);
+
+			replyAdapter = new ReplyListAdapter(getActivity(),
+					R.layout.reply_list_item, ReplyContent.ITEMS);
+
+			mListView.setAdapter(replyAdapter);
+
 		}
-		
-		
 
 		return rootView;
 	}

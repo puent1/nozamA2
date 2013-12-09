@@ -4,6 +4,7 @@ import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,10 @@ import android.view.MenuItem;
  */
 public class PageDetailActivity extends FragmentActivity {
 
+	public static final int DEFAULT = 0;
+	public static final int NEW_REPLY = 1;
+	public static final int EDIT_REPLY = 2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,10 +48,24 @@ public class PageDetailActivity extends FragmentActivity {
 			Bundle arguments = new Bundle();
 			arguments.putString(PageDetailFragment.ARG_ITEM_ID, getIntent()
 					.getStringExtra(PageDetailFragment.ARG_ITEM_ID));
-			PageDetailFragment fragment = new PageDetailFragment();
-			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.page_detail_container, fragment).commit();
+
+			int type = arguments.getInt("fragment");
+			switch(type) {
+			case DEFAULT:
+				PageDetailFragment fragment = new PageDetailFragment();
+				fragment.setArguments(arguments);
+				getSupportFragmentManager().beginTransaction()
+						.add(R.id.page_detail_container, fragment).commit();
+				break;
+			case NEW_REPLY:
+			case EDIT_REPLY:
+				CreateReplyFragment fragment1 = new CreateReplyFragment();
+				fragment1.setArguments(arguments);
+				getSupportFragmentManager().beginTransaction()
+						.add(R.id.page_detail_container, fragment1).commit();
+				break;
+			}
+			
 		}
 	}
 

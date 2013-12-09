@@ -25,6 +25,7 @@ import uiuc.cs411.nozama.ui.MyPostFragment;
 import uiuc.cs411.nozama.ui.SearchPostFragment;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
@@ -36,9 +37,12 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 	public static final int MY_POST_QUERY = 4;
 	public static final int CREATE_RESPONSE = 6;
 	public static final int REPLY_QUERY = 5;
+	public static final int REPLY_DELETE = 7;
+	public static final int REPLY_EDIT = 8;
 	public static int lock;
 
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
+	
 
 	@Override
 	protected JSONObject doInBackground(String... params) {
@@ -98,6 +102,12 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("tag", "getResponses"));
 			response = sendHttpPost(REPLY_QUERY, nameValuePairs);
 			break;
+		case REPLY_DELETE:
+			nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("tag", "delReply"));
+			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
+			response = sendHttpPost(REPLY_DELETE, nameValuePairs);
+			break;
 		}
 		return response;
 	}
@@ -155,9 +165,11 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 				if (result.getInt("success") == 1) {
 					JSONArray responses = result.getJSONArray("responses");
 					ReplyContent.init(responses);
+					PageDetailFragment.mListView.setVisibility(View.VISIBLE);
 					Log.d("getResponses", responses.toString());
 				} else {
 					ReplyContent.clear();
+					PageDetailFragment.mListView.setVisibility(View.VISIBLE);
 				}
 				PageDetailFragment.replyAdapter.notifyDataSetChanged();
 

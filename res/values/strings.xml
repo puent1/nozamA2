@@ -12,5 +12,6 @@
     <string name="title_page_list">Pages</string>
     <string name="title_page_detail">Page Detail</string>
     <string name="action_reply">Reply</string>
+    <string name="loading">Loading...</string>
 
 </resources>
