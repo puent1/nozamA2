@@ -2,19 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/searchQuery"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:ems="10"
+        android:hint="@string/search"
+        android:imeOptions="actionSearch|actionGo"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_default" />
+        android:layout_weight="0.23"
+        android:adjustViewBounds="true"
+        android:maxWidth="40dip"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/page_detail_title"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/page_detail_body"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true" />
 
 </LinearLayout>
