@@ -72,17 +72,6 @@ public class MyPostFragment extends Fragment {
 		}
 	}
 
-//	@Override
-//	public void onStart() {
-//		
-//		super.onStart();
-//		
-////		new DatabaseTask().execute(""
-////				+ DatabaseTask.MY_POST_QUERY, "temp");
-//		
-//		
-//	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -100,7 +89,7 @@ public class MyPostFragment extends Fragment {
 		resultList.setAdapter(adapter);
 		
 		new DatabaseTask().execute(""
-				+ DatabaseTask.SEARCH_QUERY, ItemListActivity.username);
+				+ DatabaseTask.MY_POST_QUERY, ItemListActivity.username);
 
 		resultList.setOnItemClickListener(new OnItemClickListener() {
 
