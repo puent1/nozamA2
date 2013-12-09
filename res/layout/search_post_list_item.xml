@@ -8,19 +8,6 @@
     android:paddingRight="16dp"
     android:paddingTop="8dp" >
 
-    <EditText
-        android:id="@+id/searchQuery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/ic_menu_search"
-        android:ems="10"
-        android:hint="@string/search"
-        android:imeOptions="actionSearch|actionGo"
-        android:inputType="text" >
-
-        <requestFocus />
-    </EditText>
-
     <ImageView
         android:layout_width="64dp"
         android:layout_height="wrap_content"
