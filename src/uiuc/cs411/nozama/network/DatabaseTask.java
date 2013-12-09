@@ -18,6 +18,7 @@ import uiuc.cs411.nozama.RegisterActivity;
 import uiuc.cs411.nozama.content.Content;
 import uiuc.cs411.nozama.content.Content.Item;
 import uiuc.cs411.nozama.listing.ListingContent;
+import uiuc.cs411.nozama.ui.ItemListActivity;
 import uiuc.cs411.nozama.ui.MyPostFragment;
 import uiuc.cs411.nozama.ui.SearchPostFragment;
 import android.os.AsyncTask;
@@ -43,8 +44,9 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject response = null;
 		switch (type) {
 		case CREATE_POST:
-			nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs = new ArrayList<NameValuePair>(4);
 			nameValuePairs.add(new BasicNameValuePair("title", params[1]));
+			nameValuePairs.add(new BasicNameValuePair("user", ItemListActivity.username));
 			nameValuePairs.add(new BasicNameValuePair("tag", "new post"));
 			nameValuePairs.add(new BasicNameValuePair("body", params[2]));
 			response = sendHttpPost(CREATE_POST, nameValuePairs);
