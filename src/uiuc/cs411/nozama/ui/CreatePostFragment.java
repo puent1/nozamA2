@@ -1,9 +1,11 @@
 package uiuc.cs411.nozama.ui;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -16,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +56,8 @@ public class CreatePostFragment extends Fragment {
 	private Content.Item mItem;
 
 	private String selectedImagePath;
+	
+	private String image;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -97,7 +102,7 @@ public class CreatePostFragment extends Fragment {
 			toast.show();
 
 			String[] taskParams = { "" + DatabaseTask.CREATE_POST, title,
-					description, pathToImage };
+					description, image };
 			new DatabaseTask().execute(taskParams);
 		}
 
@@ -160,8 +165,6 @@ public class CreatePostFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				i.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-				i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 				startActivityForResult(i, CAMERA);
 			}
 
@@ -182,11 +185,7 @@ public class CreatePostFragment extends Fragment {
 			Bitmap bm = null;	
 			switch (requestCode) {
 			case CAMERA:
-				Bundle b = data.getExtras();
-				Uri cameraImage = (Uri) b.get(MediaStore.EXTRA_OUTPUT);
-				String cameraPath = getPathFromData(cameraImage);
-				
-				bm = BitmapFactory.decodeFile(cameraPath);
+				bm = (Bitmap) data.getExtras().get("data");
 				break;
 			case GALLERY:
 				Uri selectedImage = data.getData();
@@ -195,7 +194,15 @@ public class CreatePostFragment extends Fragment {
 				bm = BitmapFactory.decodeFile(picturePath);
 				break;
 			}
+			float bmWHRatio = bm.getWidth() / (float) (bm.getHeight());
+			
+			
+			//bm = Bitmap.createScaledBitmap(bm, ((int) (imageView.getWidth() * widthToHeight)), bm.getHeight(), false);
 			imageView.setImageBitmap(bm);
+			
+			ByteArrayOutputStream sout = new ByteArrayOutputStream(); 
+		    bm.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, (OutputStream) sout);
+		    image = Base64.encodeToString(sout.toByteArray(), Base64.DEFAULT);
 		}
 		// else if (requestCode == 2 && resultCode == Activity.RESULT_OK && null
 		// != data) {

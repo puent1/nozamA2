@@ -46,6 +46,7 @@
             android:background="#EEEEEE"
             android:contentDescription="@null"
             android:scaleType="center"
+            android:adjustViewBounds="true"
             android:src="@android:drawable/ic_menu_gallery" />
     </FrameLayout>
 

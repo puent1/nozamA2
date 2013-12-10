@@ -52,12 +52,13 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject response = null;
 		switch (type) {
 		case CREATE_POST:
-			nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs = new ArrayList<NameValuePair>(5);
 			nameValuePairs.add(new BasicNameValuePair("title", params[1]));
 			nameValuePairs.add(new BasicNameValuePair("user",
 					ItemListActivity.username));
 			nameValuePairs.add(new BasicNameValuePair("tag", "new post"));
 			nameValuePairs.add(new BasicNameValuePair("body", params[2]));
+			nameValuePairs.add(new BasicNameValuePair("pic", params[3]));
 			response = sendHttpPost(CREATE_POST, nameValuePairs);
 			break;
 		case SEARCH_QUERY:
