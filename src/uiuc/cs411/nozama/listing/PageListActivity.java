@@ -3,8 +3,10 @@ package uiuc.cs411.nozama.listing;
 import org.json.JSONArray;
 import org.json.JSONException;
 import uiuc.cs411.nozama.R;
+import uiuc.cs411.nozama.Reply_Editor_Activity;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
+import uiuc.cs411.nozama.ui.CreatePostFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -108,9 +110,21 @@ public class PageListActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(CreateReplyFragment.ARG_ITEM_ID, item.id);
-			CreateReplyFragment fragment = new CreateReplyFragment();
+			
+			Intent i = new Intent();
+			i.putExtra("title", item.title);
+			i.putExtra("body", item.body);
+			i.putExtra("id", item.id);
+			i.putExtra("pic", item.pic);
+			i.putExtra("flag", "post");
+
+			
+			arguments.putString(CreatePostFragment.ARG_ITEM_ID, item.id);
+			arguments.putString("flag", "createReply");
+			arguments.putString("id", item.id);
+			CreatePostFragment fragment = new CreatePostFragment();
 			fragment.setArguments(arguments);
+			fragment.setArguments(i.getExtras());
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.page_detail_container, fragment).commit();
 
@@ -118,6 +132,7 @@ public class PageListActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, PageDetailActivity.class);
+			
 			detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, item.id);
 			detailIntent.putExtra("fragment", PageDetailActivity.NEW_REPLY);
 			startActivity(detailIntent);
@@ -125,28 +140,28 @@ public class PageListActivity extends FragmentActivity implements
 		
 	}
 	
-	public void switchFragment(ReplyContent.Reply item) {
-		Bundle arguments = new Bundle();
-		arguments.putString(CreateReplyFragment.ARG_ITEM_ID, item.id);
-		arguments.putString("title", item.title);
-		arguments.putString("body", item.body);
-		arguments.putInt("fragment", PageDetailActivity.EDIT_REPLY);
-		
-		if (mTwoPane) {
-			// In two-pane mode, show the detail view in this activity by
-			// adding or replacing the detail fragment using a
-			// fragment transaction.
-			CreateReplyFragment fragment = new CreateReplyFragment();
-			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.page_detail_container, fragment).commit();
-
-		} else {
-			// In single-pane mode, simply start the detail activity
-			// for the selected item ID.
-			Intent detailIntent = new Intent(this, PageDetailActivity.class);
-			detailIntent.putExtras(arguments);
-			startActivity(detailIntent);
-		}
-	}
+//	public void switchFragment(ReplyContent.Reply item) {
+//		Bundle arguments = new Bundle();
+//		arguments.putString(CreateReplyFragment.ARG_ITEM_ID, item.id);
+//		arguments.putString("title", item.title);
+//		arguments.putString("body", item.body);
+//		arguments.putInt("fragment", PageDetailActivity.EDIT_REPLY);
+//		
+//		if (mTwoPane) {
+//			// In two-pane mode, show the detail view in this activity by
+//			// adding or replacing the detail fragment using a
+//			// fragment transaction.
+//			CreateReplyFragment fragment = new CreateReplyFragment();
+//			fragment.setArguments(arguments);
+//			getSupportFragmentManager().beginTransaction()
+//					.replace(R.id.page_detail_container, fragment).commit();
+//
+//		} else {
+//			// In single-pane mode, simply start the detail activity
+//			// for the selected item ID.
+//			Intent detailIntent = new Intent(this, PageDetailActivity.class);
+//			detailIntent.putExtras(arguments);
+//			startActivity(detailIntent);
+//		}
+//	}
 }

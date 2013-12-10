@@ -43,6 +43,7 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 	public static int lock;
 
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
+	public static final int POST_EDIT = 10;
 	
 
 	@Override
@@ -94,9 +95,9 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs = new ArrayList<NameValuePair>(5);
 			nameValuePairs.add(new BasicNameValuePair("userName", params[1]));
 			nameValuePairs.add(new BasicNameValuePair("tag", "newRes"));
-			nameValuePairs.add(new BasicNameValuePair("title", params[2]));
-			nameValuePairs.add(new BasicNameValuePair("body", params[3]));
-			nameValuePairs.add(new BasicNameValuePair("id", params[5]));
+			nameValuePairs.add(new BasicNameValuePair("title", params[3]));
+			nameValuePairs.add(new BasicNameValuePair("body", params[4]));
+			nameValuePairs.add(new BasicNameValuePair("id", params[2]));
 			response = sendHttpPost(REGISTER, nameValuePairs);
 		case REPLY_QUERY:
 			nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -115,6 +116,22 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("tag", "delPost"));
 			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
 			response = sendHttpPost(POST_DELETE, nameValuePairs);
+			break;
+		case POST_EDIT:
+			nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs.add(new BasicNameValuePair("tag", "editPost"));
+			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
+			nameValuePairs.add(new BasicNameValuePair("title", params[2]));
+			nameValuePairs.add(new BasicNameValuePair("body", params[3]));
+			response = sendHttpPost(POST_EDIT, nameValuePairs);
+			break;
+		case REPLY_EDIT:
+			nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs.add(new BasicNameValuePair("tag", "editResp"));
+			nameValuePairs.add(new BasicNameValuePair("resId", params[1]));
+			nameValuePairs.add(new BasicNameValuePair("title", params[2]));
+			nameValuePairs.add(new BasicNameValuePair("body", params[3]));
+			response = sendHttpPost(REPLY_EDIT, nameValuePairs);
 			break;
 		}
 		return response;

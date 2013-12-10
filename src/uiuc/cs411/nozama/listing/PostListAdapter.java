@@ -1,19 +1,24 @@
 package uiuc.cs411.nozama.listing;
 
 import java.util.List;
-
 import uiuc.cs411.nozama.R;
+import uiuc.cs411.nozama.Reply_Editor_Activity;
 import uiuc.cs411.nozama.listing.ReplyContent.Reply;
 import uiuc.cs411.nozama.network.DatabaseTask;
 import uiuc.cs411.nozama.ui.ItemListActivity;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class PostListAdapter extends ArrayAdapter {
@@ -58,6 +63,17 @@ public class PostListAdapter extends ArrayAdapter {
 			v.findViewById(R.id.reply_item_edit).setVisibility(View.GONE);
 			v.findViewById(R.id.reply_item_delete).setVisibility(View.GONE);
 		}
+		String str = objects.get(position).pic;
+		if(str != null)
+			Log.d("str", str);
+		
+		if(!str.equals("0")) {
+		    byte[] imageAsBytes = Base64.decode(str.getBytes(), Base64.DEFAULT);
+			ImageView image = (ImageView) v.findViewById(R.id.imageView1);
+			image.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+		}
+		
+		
 		return v;
 	
 	}
@@ -71,7 +87,16 @@ public class PostListAdapter extends ArrayAdapter {
 
 		@Override
 		public void onClick(View v) {
-			//((PageListActivity) mContext).switchFragment(objects.get(pos));
+			Intent i = new Intent(mContext, Reply_Editor_Activity.class);
+			i.putExtra("title", post.title);
+			i.putExtra("body", post.body);
+			i.putExtra("id", post.id);
+			i.putExtra("pic", post.pic);
+			if(post instanceof ListingContent.Listing ) {
+				i.putExtra("flag", "post");
+			} else if (post instanceof ReplyContent.Reply) {
+				i.putExtra("flag", "reply");			}
+			mContext.startActivity(i);
 		}
 	}
 

@@ -50,6 +50,7 @@ public class ListingContent {
 			this.title = tryToGetString(post, "title");
 			this.body = tryToGetString(post, "body");
 			this.user = tryToGetString(post, "user");
+			this.pic = tryToGetString(post, "pic");
 			
 			try {
 				JSONArray jsonKeywords = post.getJSONArray("keywords");

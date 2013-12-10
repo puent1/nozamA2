@@ -5,6 +5,7 @@ public abstract class Post {
 	public String title;
 	public String body;
 	public String user;
+	public String pic;
 
 	
 	public abstract void delete();

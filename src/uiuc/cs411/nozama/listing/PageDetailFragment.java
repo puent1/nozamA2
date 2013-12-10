@@ -1,7 +1,11 @@
 package uiuc.cs411.nozama.listing;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +63,7 @@ public class PageDetailFragment extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+	
 		((PageListActivity) getActivity()).switchFragment(mItem);
 		return true;
 	}
@@ -95,6 +101,19 @@ public class PageDetailFragment extends Fragment {
 
 			((TextView) rootView.findViewById(R.id.page_detail_body))
 					.setText(mItem.body);
+
+			String str = mItem.pic;
+			if(str != null)
+				Log.d("str", str);
+			
+			Bitmap bm = null;
+			
+			if(!str.equals("0")) {
+			    byte[] imageAsBytes = Base64.decode(str.getBytes(), Base64.DEFAULT);
+				bm = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+			}
+			
+			((ImageView) rootView.findViewById(R.id.matt_gathman)).setImageBitmap(bm);
 
 			String keywords = "keywords: ";
 			for (int i = 0; i < mItem.keywords.length - 1; i++) {

@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,9 +28,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.content.Content;
+import uiuc.cs411.nozama.listing.Post;
 import uiuc.cs411.nozama.network.DatabaseTask;
 
 /**
@@ -54,10 +55,20 @@ public class CreatePostFragment extends Fragment {
 	 * The dummy content this fragment is presenting.
 	 */
 	private Content.Item mItem;
+	
+	private String title;
+	
+	private String body;
+	
+	private String pic;
+	
+	private String id;
 
 	private String selectedImagePath;
 	
 	private String image;
+	
+	private String flag = "create";
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -100,10 +111,22 @@ public class CreatePostFragment extends Fragment {
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
-
+			
+			if(flag.equals("create")) {
 			String[] taskParams = { "" + DatabaseTask.CREATE_POST, title,
 					description, image };
 			new DatabaseTask().execute(taskParams);
+			}
+			else if(flag.equals("post")) {
+				String[] taskParams = { "" + DatabaseTask.POST_EDIT, id, title,
+						description, image };
+				new DatabaseTask().execute(taskParams);
+			}
+			else if(flag.equals("reply")) {
+				String[] taskParams = { "" + DatabaseTask.REPLY_EDIT, id, title,
+						description, image };
+				new DatabaseTask().execute(taskParams);
+			}
 		}
 
 		return true;
@@ -112,12 +135,29 @@ public class CreatePostFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			mItem = Content.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+		if(getArguments()!=null) {
+			if (getArguments().containsKey(ARG_ITEM_ID)) {
+				// Load the dummy content specified by the fragment
+				// arguments. In a real-world scenario, use a Loader
+				// to load content from a content provider.
+				mItem = Content.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+			}
+		}
+		
+		Bundle args = getActivity().getIntent().getExtras();
+		if(args!=null) {
+			title = (String) args.get("title");
+			body = (String) args.get("body");
+			pic = (String) args.get("pic");
+			id = (String) args.get("id");
+			flag = (String) args.getString("flag");
+		}
+		else {
+			title = "";
+			body = "";
+			pic = null;
+			id = "";
+			flag = "create";
 		}
 	}
 
@@ -138,6 +178,10 @@ public class CreatePostFragment extends Fragment {
 		View rootView = inflater
 				.inflate(R.layout.create_post, container, false);
 
+		((TextView) rootView.findViewById(R.id.titleInput)).setText(title);
+		((TextView) rootView.findViewById(R.id.descriptionInput)).setText(body);
+
+		
 		ImageButton galleryButton = (ImageButton) rootView
 				.findViewById(R.id.upload_gallery);
 		galleryButton.setOnClickListener(new OnClickListener() {

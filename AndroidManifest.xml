@@ -18,9 +18,10 @@
         <activity
             android:name="uiuc.cs411.nozama.ui.ItemListActivity"
             android:label="@string/app_name" >
-<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -34,17 +35,16 @@
         <activity
             android:name="uiuc.cs411.nozama.LoginActivity"
             android:label="@string/title_activity_login"
-
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uiuc.cs411.nozama.ui.ItemListActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name="uiuc.cs411.nozama.RegisterActivity"
@@ -62,9 +62,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uiuc.cs411.nozama.ui.ItemListActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -74,7 +76,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PageListActivity" />
-            
+        </activity>
+        <activity
+            android:name="uiuc.cs411.nozama.Reply_Editor_Activity"
+            android:label="@string/title_activity_reply__editor_" >
         </activity>
     </application>
 

@@ -50,6 +50,7 @@ public class ReplyContent {
 			this.title = tryToGetString(reply, "title");
 			this.body = tryToGetString(reply, "body");
 			this.user = tryToGetString(reply, "user");
+			this.pic = tryToGetString(reply, "pic");
 		}
 
 		private String tryToGetString(JSONObject post, String key) {

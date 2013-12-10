@@ -37,7 +37,7 @@ public class ItemDetailActivity extends FragmentActivity {
         
         // Show the Up button in the action bar.
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle("");
+        getActionBar().setTitle(ItemListActivity.username);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
