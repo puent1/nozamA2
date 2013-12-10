@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +38,7 @@ import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.content.Content;
 import uiuc.cs411.nozama.listing.Post;
 import uiuc.cs411.nozama.network.DatabaseTask;
+import uiuc.cs411.nozama.network.URLTask;
 
 /**
  * A fragment for creating a post. This fragment is either contained in a
@@ -51,6 +56,8 @@ public class CreatePostFragment extends Fragment {
 	
 	public static final int GALLERY = 2;
 	
+	public static JSONArray responses;
+	
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
@@ -66,9 +73,11 @@ public class CreatePostFragment extends Fragment {
 
 	private String selectedImagePath;
 	
-	private String image;
+	public static String image;
 	
 	private String flag = "create";
+	
+	public static ImageView iv;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -111,7 +120,6 @@ public class CreatePostFragment extends Fragment {
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
-			
 			if(flag.equals("create")) {
 			String[] taskParams = { "" + DatabaseTask.CREATE_POST, title,
 					description, image };
@@ -186,7 +194,7 @@ public class CreatePostFragment extends Fragment {
 		((TextView) rootView.findViewById(R.id.titleInput)).setText(title);
 		((TextView) rootView.findViewById(R.id.descriptionInput)).setText(body);
 
-		
+		iv = (ImageView) rootView.findViewById(R.id.imagePreview);
 		ImageButton galleryButton = (ImageButton) rootView
 				.findViewById(R.id.upload_gallery);
 		galleryButton.setOnClickListener(new OnClickListener() {
@@ -198,6 +206,19 @@ public class CreatePostFragment extends Fragment {
 
 				startActivityForResult(i, GALLERY);
 			}
+		});
+		
+		ImageButton googleButton = (ImageButton) rootView
+				.findViewById(R.id.upload_google);
+		googleButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				String[] taskParams = { "" + DatabaseTask.GOOGLE, title,
+						};
+				new DatabaseTask().execute(taskParams);
+			}
+		
 		});
 
 		String fileName = "pic.jpg";
@@ -282,5 +303,22 @@ public class CreatePostFragment extends Fragment {
 		cursor.close();
 		return picturePath;
 	}
-
+	
+	/**
+	 * This function checks the results of the login request
+	 */
+	public static void checkResult()
+	{
+		String url;
+		try {
+			url = responses.getJSONObject(0).get("url").toString();
+			Log.d("url", url);
+			new URLTask(CreatePostFragment.iv).execute(url);
+		}
+		catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

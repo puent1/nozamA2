@@ -1,5 +1,6 @@
 package uiuc.cs411.nozama.network;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpResponse;
@@ -20,9 +21,12 @@ import uiuc.cs411.nozama.content.Content.Item;
 import uiuc.cs411.nozama.listing.ListingContent;
 import uiuc.cs411.nozama.listing.PageDetailFragment;
 import uiuc.cs411.nozama.listing.ReplyContent;
+import uiuc.cs411.nozama.ui.CreatePostFragment;
 import uiuc.cs411.nozama.ui.ItemListActivity;
 import uiuc.cs411.nozama.ui.MyPostFragment;
 import uiuc.cs411.nozama.ui.SearchPostFragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +48,7 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
 	public static final int POST_EDIT = 10;
+	public static final int GOOGLE = 11;
 	
 
 	@Override
@@ -134,6 +139,12 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("body", params[3]));
 			response = sendHttpPost(REPLY_EDIT, nameValuePairs);
 			break;
+		case GOOGLE:
+			nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("tag", "suggestImg"));
+			nameValuePairs.add(new BasicNameValuePair("keyword", params[1]));
+			response = sendHttpPost(REPLY_EDIT, nameValuePairs);
+			break;
 		}
 		return response;
 	}
@@ -200,10 +211,19 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 				PageDetailFragment.replyAdapter.notifyDataSetChanged();
 
 			}
+			if (result.getString("tag").equals("suggestImg")) {
+				if (result.getInt("success") == 1) {
+					CreatePostFragment.responses = result.getJSONArray("urls");
+					CreatePostFragment.checkResult();
+					
+				} else {
+					
+				}
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
 }
