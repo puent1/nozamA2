@@ -85,7 +85,6 @@ public class SearchPostFragment extends Fragment {
 
 		// TODO: replace with a real list adapter.
 		adapter = new PostListAdapter(getActivity(),
-				
 				R.layout.reply_list_item, ListingContent.ITEMS);
 
 		resultList.setAdapter(adapter);

@@ -39,6 +39,7 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 	public static final int REPLY_QUERY = 5;
 	public static final int REPLY_DELETE = 7;
 	public static final int REPLY_EDIT = 8;
+	public static final int POST_DELETE = 9;
 	public static int lock;
 
 	private static final String DATABASE_SITE = "http://web.engr.illinois.edu/~mgathma2/noZama/noZamaDB.php";
@@ -108,6 +109,12 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("tag", "delReply"));
 			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
 			response = sendHttpPost(REPLY_DELETE, nameValuePairs);
+			break;
+		case POST_DELETE:
+			nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("tag", "delPost"));
+			nameValuePairs.add(new BasicNameValuePair("id", params[1]));
+			response = sendHttpPost(POST_DELETE, nameValuePairs);
 			break;
 		}
 		return response;

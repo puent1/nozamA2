@@ -50,9 +50,8 @@ public class PostListAdapter extends ArrayAdapter {
 			v.findViewById(R.id.reply_item_edit).setVisibility(View.VISIBLE);
 			v.findViewById(R.id.reply_item_delete).setVisibility(View.VISIBLE);
 			
-			final int pos = position;
-			v.findViewById(R.id.reply_item_edit).setOnClickListener(new ReplyEditListener(pos));
-			v.findViewById(R.id.reply_item_delete).setOnClickListener(new ReplyDeleteListener(pos));
+			v.findViewById(R.id.reply_item_edit).setOnClickListener(new ReplyEditListener(objects.get(position)));
+			v.findViewById(R.id.reply_item_delete).setOnClickListener(new ReplyDeleteListener(objects.get(position)));
 		}
 		else {
 			v.setBackgroundColor(Color.LTGRAY);
@@ -64,10 +63,10 @@ public class PostListAdapter extends ArrayAdapter {
 	}
 	
 	private final class ReplyEditListener implements OnClickListener {
-		private final int pos;
+		private final Post post;
 
-		private ReplyEditListener(int pos) {
-			this.pos = pos;
+		private ReplyEditListener(Post post) {
+			this.post = post;
 		}
 
 		@Override
@@ -77,15 +76,22 @@ public class PostListAdapter extends ArrayAdapter {
 	}
 
 	private final class ReplyDeleteListener implements OnClickListener {
-		private final int pos;
+		private final Post post;
+		
 
-		private ReplyDeleteListener(int pos) {
-			this.pos = pos;
+		private ReplyDeleteListener(Post post) {
+			this.post = post;
 		}
 
 		@Override
 		public void onClick(View v) {
-			new DatabaseTask().execute("" + DatabaseTask.REPLY_DELETE, objects.get(pos).id);
+			if(post instanceof ListingContent.Listing ) {
+				new DatabaseTask().execute("" + DatabaseTask.POST_DELETE, post.id);
+
+			} else if (post instanceof ReplyContent.Reply) {
+				new DatabaseTask().execute("" + DatabaseTask.REPLY_DELETE, post.id);
+			}
+			
 		}
 	}
 }
