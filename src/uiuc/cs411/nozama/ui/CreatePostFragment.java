@@ -127,6 +127,11 @@ public class CreatePostFragment extends Fragment {
 						description, image };
 				new DatabaseTask().execute(taskParams);
 			}
+			else if(flag.equals("createReply")) {
+				String[] taskParams = { "" + DatabaseTask.CREATE_RESPONSE, ItemListActivity.username, id, title,
+						description, image };
+				new DatabaseTask().execute(taskParams);
+			}
 		}
 
 		return true;

@@ -1,5 +1,6 @@
 package uiuc.cs411.nozama.listing;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import uiuc.cs411.nozama.R;
+import uiuc.cs411.nozama.Reply_Editor_Activity;
 import uiuc.cs411.nozama.R.id;
 import uiuc.cs411.nozama.R.layout;
 import uiuc.cs411.nozama.network.DatabaseTask;
@@ -64,7 +66,13 @@ public class PageDetailFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	
-		((PageListActivity) getActivity()).switchFragment(mItem);
+		Intent i = new Intent(this.getActivity(), Reply_Editor_Activity.class);
+		i.putExtra("title", "");
+		i.putExtra("body", "");
+		i.putExtra("id", mItem.id);
+		i.putExtra("pic", "0");
+		i.putExtra("flag", "createReply");
+		this.getActivity().startActivity(i);
 		return true;
 	}
 
@@ -114,6 +122,7 @@ public class PageDetailFragment extends Fragment {
 			}
 			
 			((ImageView) rootView.findViewById(R.id.matt_gathman)).setImageBitmap(bm);
+			((ImageView) rootView.findViewById(R.id.matt_gathman)).setVisibility(View.VISIBLE);
 
 			String keywords = "keywords: ";
 			for (int i = 0; i < mItem.keywords.length - 1; i++) {

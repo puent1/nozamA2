@@ -98,6 +98,7 @@ public class DatabaseTask extends AsyncTask<String, Void, JSONObject> {
 			nameValuePairs.add(new BasicNameValuePair("title", params[3]));
 			nameValuePairs.add(new BasicNameValuePair("body", params[4]));
 			nameValuePairs.add(new BasicNameValuePair("id", params[2]));
+			nameValuePairs.add(new BasicNameValuePair("pic", params[5]));
 			response = sendHttpPost(REGISTER, nameValuePairs);
 		case REPLY_QUERY:
 			nameValuePairs = new ArrayList<NameValuePair>(2);
