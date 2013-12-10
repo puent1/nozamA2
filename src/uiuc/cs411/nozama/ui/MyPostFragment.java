@@ -27,8 +27,9 @@ import android.widget.Toast;
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.content.Content;
 import uiuc.cs411.nozama.listing.ListingContent;
-import uiuc.cs411.nozama.listing.ListingContent.Post;
+import uiuc.cs411.nozama.listing.ListingContent.Listing;
 import uiuc.cs411.nozama.listing.PageListActivity;
+import uiuc.cs411.nozama.listing.PostListAdapter;
 import uiuc.cs411.nozama.network.DatabaseTask;
 
 /**
@@ -48,7 +49,7 @@ public class MyPostFragment extends Fragment {
 	 */
 	private Content.Item mItem;
 
-	public static ArrayAdapter<Post> adapter;
+	public static ArrayAdapter<Listing> adapter;
 
 	public static ArrayList<Content.Item> titles = new ArrayList<Content.Item>();
 	public static ArrayList<Content.Item> bodies = new ArrayList<Content.Item>();
@@ -81,11 +82,13 @@ public class MyPostFragment extends Fragment {
 		ListView resultList = (ListView) rootView
 				.findViewById(R.id.myResults);
 
-		// TODO: replace with a real list adapter.
-		adapter = new ArrayAdapter<ListingContent.Post>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, ListingContent.ITEMS);
+//		// TODO: replace with a real list adapter.
+//		adapter = new ArrayAdapter<ListingContent.Listing>(getActivity(),
+//				android.R.layout.simple_list_item_activated_1,
+//				android.R.id.text1, ListingContent.ITEMS);
 
+		adapter = new PostListAdapter(getActivity(), R.layout.reply_list_item, ListingContent.ITEMS);
+		
 		resultList.setAdapter(adapter);
 		
 		new DatabaseTask().execute(""

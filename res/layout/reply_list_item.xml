@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
     android:padding="16dp" >
 
     <LinearLayout
@@ -15,7 +16,7 @@
             style="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/reply_item_user"
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/reply_item_body"
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="false" />
     </LinearLayout>
 
     <ImageButton

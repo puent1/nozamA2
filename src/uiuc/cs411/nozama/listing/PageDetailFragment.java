@@ -35,11 +35,11 @@ public class PageDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private ListingContent.Post mItem;
+	private ListingContent.Listing mItem;
 
 	public static ListView mListView;
 
-	public static ReplyListAdapter replyAdapter;
+	public static PostListAdapter replyAdapter;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -104,7 +104,7 @@ public class PageDetailFragment extends Fragment {
 			((TextView) rootView.findViewById(R.id.page_detail_keywords))
 					.setText(keywords);
 
-			replyAdapter = new ReplyListAdapter(getActivity(),
+			replyAdapter = new PostListAdapter(getActivity(),
 					R.layout.reply_list_item, ReplyContent.ITEMS);
 
 			mListView.setAdapter(replyAdapter);

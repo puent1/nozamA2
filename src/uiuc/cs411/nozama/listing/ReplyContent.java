@@ -40,11 +40,8 @@ public class ReplyContent {
 		ITEM_MAP.put(item.id, item);
 	}
 
-	public static class Reply {
-		public String id;
-		public String title;
-		public String body;
-		public String user;
+	public static class Reply extends Post{
+		
 
 		// Image member variable
 

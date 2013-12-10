@@ -27,8 +27,9 @@ import android.widget.Toast;
 import uiuc.cs411.nozama.R;
 import uiuc.cs411.nozama.content.Content;
 import uiuc.cs411.nozama.listing.ListingContent;
-import uiuc.cs411.nozama.listing.ListingContent.Post;
+import uiuc.cs411.nozama.listing.ListingContent.Listing;
 import uiuc.cs411.nozama.listing.PageListActivity;
+import uiuc.cs411.nozama.listing.PostListAdapter;
 import uiuc.cs411.nozama.network.DatabaseTask;
 
 /**
@@ -48,7 +49,7 @@ public class SearchPostFragment extends Fragment {
 	 */
 	private Content.Item mItem;
 
-	public static ArrayAdapter<Post> adapter;
+	public static ArrayAdapter<Listing> adapter;
 
 	public static ArrayList<Content.Item> titles = new ArrayList<Content.Item>();
 	public static ArrayList<Content.Item> bodies = new ArrayList<Content.Item>();
@@ -83,9 +84,9 @@ public class SearchPostFragment extends Fragment {
 				.findViewById(R.id.queryResults);
 
 		// TODO: replace with a real list adapter.
-		adapter = new SearchPostListAdapter(getActivity(),
+		adapter = new PostListAdapter(getActivity(),
 				
-				R.layout.search_post_list_item, ListingContent.ITEMS);
+				R.layout.reply_list_item, ListingContent.ITEMS);
 
 		resultList.setAdapter(adapter);
 

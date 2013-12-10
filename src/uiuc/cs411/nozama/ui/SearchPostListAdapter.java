@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uiuc.cs411.nozama.R;
-import uiuc.cs411.nozama.listing.ListingContent.Post;
+import uiuc.cs411.nozama.listing.ListingContent.Listing;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,13 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SearchPostListAdapter extends ArrayAdapter<Post> {
-	private List<Post> objects;
+public class SearchPostListAdapter extends ArrayAdapter<Listing> {
+	private List<Listing> objects;
 	Context mContext;
 	int mResource;
 	
 	
-	public SearchPostListAdapter(Context context, int resource, List<Post> objects) {
+	public SearchPostListAdapter(Context context, int resource, List<Listing> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;	

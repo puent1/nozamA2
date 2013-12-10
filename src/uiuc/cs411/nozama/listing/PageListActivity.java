@@ -102,7 +102,7 @@ public class PageListActivity extends FragmentActivity implements
 		}
 	}
 
-	public void switchFragment(ListingContent.Post item) {
+	public void switchFragment(ListingContent.Listing item) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a

@@ -15,9 +15,9 @@ import org.json.JSONObject;
  */
 public class ListingContent {
 
-	public static List<Post> ITEMS = new ArrayList<Post>();
+	public static List<Listing> ITEMS = new ArrayList<Listing>();
 
-	public static Map<String, Post> ITEM_MAP = new HashMap<String, Post>();
+	public static Map<String, Listing> ITEM_MAP = new HashMap<String, Listing>();
 
 	public static void init(JSONArray posts) {
 		ITEMS.clear();
@@ -28,28 +28,24 @@ public class ListingContent {
 		}
 		for (int i = 0; i < posts.length(); i++) {
 			try {
-				addItem(new Post(posts.getJSONObject(i)));
+				addItem(new Listing(posts.getJSONObject(i)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static void addItem(Post item) {
+	private static void addItem(Listing item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.id, item);
 	}
 
-	public static class Post {
-		public String id;
+	public static class Listing extends Post {
 		public String[] keywords;
-		public String title;
-		public String body;
-		public String user;
 
 		// Image member variable
 
-		public Post(JSONObject post) {
+		public Listing(JSONObject post) {
 			this.id = tryToGetString(post, "id");
 			this.title = tryToGetString(post, "title");
 			this.body = tryToGetString(post, "body");

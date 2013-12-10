@@ -74,7 +74,7 @@ public class PageListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<ListingContent.Post>(getActivity(),
+		setListAdapter(new ArrayAdapter<ListingContent.Listing>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, ListingContent.ITEMS));
 	}

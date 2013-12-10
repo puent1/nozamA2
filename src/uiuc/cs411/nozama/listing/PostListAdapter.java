@@ -16,13 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ReplyListAdapter extends ArrayAdapter<Reply> {
-	private List<Reply> objects;
+public class PostListAdapter extends ArrayAdapter {
+	private List<? extends Post> objects;
 	Context mContext;
 	int mResource;
 	
 	
-	public ReplyListAdapter(Context context, int resource, List<Reply> objects) {
+	public PostListAdapter(Context context, int resource, List<? extends Post> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;	
@@ -40,7 +40,8 @@ public class ReplyListAdapter extends ArrayAdapter<Reply> {
 			LayoutInflater lI = ((Activity)mContext).getLayoutInflater();
 			v = lI.inflate(mResource, parent, false);
 		}
-		
+		v.setFocusable(false);
+		v.setFocusableInTouchMode(false);
 		((TextView) v.findViewById(R.id.reply_item_title)).setText(objects.get(position).title);
 		((TextView) v.findViewById(R.id.reply_item_body)).setText(objects.get(position).body);
 		((TextView) v.findViewById(R.id.reply_item_user)).setText(objects.get(position).user);
@@ -71,7 +72,7 @@ public class ReplyListAdapter extends ArrayAdapter<Reply> {
 
 		@Override
 		public void onClick(View v) {
-			((PageListActivity) mContext).switchFragment(objects.get(pos));
+			//((PageListActivity) mContext).switchFragment(objects.get(pos));
 		}
 	}
 
